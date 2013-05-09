@@ -2,21 +2,20 @@ Video Tools
 ===========
 
 This is a compilation of a bunch of scripts and small helper tools that I use to process and 
-manage movies and other media in iTunes style MPEG-4 format.
-
+manage movies and other media in iTunes style MPEG-4 format.  
 Among them are:
 
-`aac_encode`:
+`aac_encode`  
 Pipe in a 48kHz stereo s16le PCM stream. Uses QuickTime to convert to AAC.
 
-`compare.sh`:
+`compare.sh`  
 Compares MPEG-4 files with regard to the tracks they contain and their metadata.
 
-`dolby_decode.sh`:
+`dolby_decode.sh`  
 Upmixes Dolby ProLogic Surround audio to 5.1. Eats 48kHz stereo s16le PCM, outputs same 
 with six channels in standard L-R-C-LFE-Ls-Rs layout.
 
-`encode.sh`:
+`encode.sh`  
 The main thing. Takes anything HandBrake understands and encodes to canonical iTunes style 
 MPEG-4.
 
