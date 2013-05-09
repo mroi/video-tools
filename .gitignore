@@ -1,0 +1,7 @@
+*.app
+AtomicParsley
+HandBrakeCLI
+MP4Box
+aac_encode
+h264_frame_rate
+sox
