@@ -6,16 +6,19 @@ manage movies and other media in iTunes style MPEG-4 format.
 
 Among them are:
 
-`aac_encode`
-: Pipe in a 48kHz stereo s16le PCM stream. Uses QuickTime to convert to AAC.
-`compare.sh`
-: Compares MPEG-4 files with regard to the tracks they contain and their metadata.
-`dolby_decode.sh`
-: Upmixes Dolby ProLogic Surround audio to 5.1. Eats 48kHz stereo s16le PCM, outputs same 
-: with six channels in standard L-R-C-LFE-Ls-Rs layout.
-`encode.sh`
-: The main thing. Takes anything HandBrake understands and encodes to canonical iTunes style 
-: MPEG-4.
+`aac_encode`:
+Pipe in a 48kHz stereo s16le PCM stream. Uses QuickTime to convert to AAC.
+
+`compare.sh`:
+Compares MPEG-4 files with regard to the tracks they contain and their metadata.
+
+`dolby_decode.sh`:
+Upmixes Dolby ProLogic Surround audio to 5.1. Eats 48kHz stereo s16le PCM, outputs same 
+with six channels in standard L-R-C-LFE-Ls-Rs layout.
+
+`encode.sh`:
+The main thing. Takes anything HandBrake understands and encodes to canonical iTunes style 
+MPEG-4.
 
 The scripts need a couple of tools along their way. You can place them right here into the 
 project directory, because this will be in `$PATH`. The `Makefile` will help you collect 
