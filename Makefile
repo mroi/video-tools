@@ -15,7 +15,7 @@ all: $(ACTIVE_TOOLS)
 		case $@ in \
 			(AtomicParsley) echo '0.9.4.' ;; \
 			(HandBrakeCLI) echo '0.9.8.' ;; \
-			(MP4Box) echo '0.4.6-DEV (internal rev. 5).' ;; \
+			(MP4Box) echo '0.5.0-rev4065.' ;; \
 			(SimpleMovieX.app) echo '3.12.' ;; \
 			(Subler.app) echo '0.19.' ;; \
 			(ffmpeg) echo 'from current Git.' ;; \
