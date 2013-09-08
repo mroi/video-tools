@@ -14,7 +14,7 @@ all: $(ACTIVE_TOOLS)
 		echo 'Please get $@. Tested with version \c' ; \
 		case $@ in \
 			(AtomicParsley) echo '0.9.4.' ;; \
-			(HandBrakeCLI) echo '0.9.8.' ;; \
+			(HandBrakeCLI) echo '0.9.9.' ;; \
 			(MP4Box) echo '0.5.0-rev4065.' ;; \
 			(SimpleMovieX.app) echo '3.12.' ;; \
 			(Subler.app) echo '0.19.' ;; \
