@@ -141,9 +141,9 @@ case "$pulldown" in
 		# convert to 24fps
 		h264_frame_rate "$stem".h264
 		# audio pulldown to 24fps, Dolby Prologic II downmix, encode to AAC
-		ffmpeg -i "$stem"_.m4v -f s16le -ac 6 - | sox -t raw -s -b 16 -L -c 6 -r 46080 - -t raw -s -b 16 -L -r 48000 - remix -m 1v1.0000,3v0.7071,5v-0.8660,6v-0.5000 2v1.0000,3v0.7071,5v0.5000,6v0.8660 | aac_encode "$stem".aac
+		ffmpeg -i "$stem"_.m4v -f s16le -ac 6 - | sox -t raw -e signed-integer -b 16 -L -c 6 -r 46080 - -t raw -e signed-integer -b 16 -L -r 48000 - remix -m 1v1.0000,3v0.7071,5v-0.8660,6v-0.5000 2v1.0000,3v0.7071,5v0.5000,6v0.8660 | aac_encode "$stem".aac
 		# audio pulldown to 24fps, reencode to AC3
-		ffmpeg -i "$stem"_.m4v -f s16le -ac 6 - | sox -t raw -s -b 16 -L -c 6 -r 46080 - -t raw -s -b 16 -L -c 6 -r 48000 - | ffmpeg -f s16le -ac 6 -ar 48000 -i - -ab 448k -y "$stem".ac3 2> /dev/null
+		ffmpeg -i "$stem"_.m4v -f s16le -ac 6 - | sox -t raw -e signed-integer -b 16 -L -c 6 -r 46080 - -t raw -e signed-integer -b 16 -L -c 6 -r 48000 - | ffmpeg -f s16le -ac 6 -ar 48000 -i - -ab 448k -y "$stem".ac3 2> /dev/null
 		# use Subler to mux raw H.264, AAC and AC3
 		echo
 		echo "Please multiplex \"$stem.h264\", \"$stem.aac\" and \"$stem.ac3\"."

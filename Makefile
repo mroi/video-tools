@@ -17,7 +17,7 @@ all: $(ACTIVE_TOOLS)
 			(MP4Box) echo '0.5.0-rev4065.' ;; \
 			(Subler.app) echo '0.30.' ;; \
 			(ffmpeg) echo 'from current Git.' ;; \
-			(sox) echo '14.3.0.' ;; \
+			(sox) echo '14.4.1.' ;; \
 		esac ; \
 		false ; \
 	}
