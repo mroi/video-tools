@@ -11,7 +11,7 @@
 #define CHECK(X) if ((X) != noErr) return EX_UNAVAILABLE;
 
 
-void *buffer = NULL;
+static void *buffer = NULL;
 
 static OSStatus input_callback(AudioConverterRef converter, UInt32 *numPackets,
                                AudioBufferList *bufferList, AudioStreamPacketDescription **desc,
@@ -22,7 +22,7 @@ static OSStatus input_callback(AudioConverterRef converter, UInt32 *numPackets,
 	(void)unused;
 	
 	/* this gets called by the converter when it needs data */
-	UInt32 size = *numPackets * 4;
+	size_t size = *numPackets * 4;
 	
 	buffer = realloc(buffer, size);
 	size = fread(buffer, 1, size, stdin);
@@ -31,9 +31,9 @@ static OSStatus input_callback(AudioConverterRef converter, UInt32 *numPackets,
 		*numPackets = 0;
 	} else {
 		bufferList->mBuffers[0].mNumberChannels = 2;
-		bufferList->mBuffers[0].mDataByteSize = size;
+		bufferList->mBuffers[0].mDataByteSize = (UInt32)size;
 		bufferList->mBuffers[0].mData = buffer;
-		*numPackets = size / 4;
+		*numPackets = (UInt32)(size / 4);
 	}
 	
 	return noErr;
@@ -93,7 +93,7 @@ int main(int argc, const char **argv)
 	
 	/* create output file */
 	CFURLRef url = CFURLCreateFromFileSystemRepresentation(NULL, (const UInt8 *)argv[1],
-														   strlen(argv[1]), false);
+														   (CFIndex)strlen(argv[1]), false);
 	CHECK(AudioFileCreateWithURL(url, kAudioFileAAC_ADTSType, &output,
 								 kAudioFileFlags_EraseFile, &outfile));
 	CFRelease(url);
