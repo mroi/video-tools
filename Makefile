@@ -10,7 +10,7 @@ all: $(ACTIVE_TOOLS)
 
 %:
 	@which $@ &> /dev/null || { \
-		echo 'Please get $@. Tested with version \c' ; \
+		echo 'Please get $@. Recommended version \c' ; \
 		case $@ in \
 			(AtomicParsley) echo '0.9.6.' ;; \
 			(HandBrakeCLI) echo '0.10.0.' ;; \
