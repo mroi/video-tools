@@ -1,0 +1,65 @@
+--- Subler.app/Contents/Info.plist	2014-12-15 17:57:03.000000000 +0100
++++ Subler.app/Contents/Info.plist	2015-01-21 21:20:03.000000000 +0100
+@@ -25,6 +25,8 @@
+ 			</array>
+ 			<key>CFBundleTypeRole</key>
+ 			<string>Editor</string>
++			<key>LSHandlerRank</key>
++			<string>Alternate</string>
+ 			<key>LSTypeIsPackage</key>
+ 			<false/>
+ 			<key>NSDocumentClass</key>
+@@ -52,6 +54,8 @@
+ 			</array>
+ 			<key>CFBundleTypeRole</key>
+ 			<string>Editor</string>
++			<key>LSHandlerRank</key>
++			<string>Alternate</string>
+ 			<key>LSTypeIsPackage</key>
+ 			<false/>
+ 			<key>NSDocumentClass</key>
+@@ -77,6 +81,8 @@
+ 			</array>
+ 			<key>CFBundleTypeRole</key>
+ 			<string>Editor</string>
++			<key>LSHandlerRank</key>
++			<string>Alternate</string>
+ 			<key>LSTypeIsPackage</key>
+ 			<false/>
+ 			<key>NSDocumentClass</key>
+@@ -98,6 +104,8 @@
+ 			<string>Audiobook-MPEG4</string>
+ 			<key>CFBundleTypeRole</key>
+ 			<string>Editor</string>
++			<key>LSHandlerRank</key>
++			<string>Alternate</string>
+ 			<key>NSDocumentClass</key>
+ 			<string>SBDocument</string>
+ 		</dict>
+@@ -112,6 +120,8 @@
+ 			<string>Matroska video</string>
+ 			<key>CFBundleTypeRole</key>
+ 			<string>Viewer</string>
++			<key>LSHandlerRank</key>
++			<string>Alternate</string>
+ 			<key>NSDocumentClass</key>
+ 			<string>SBDocument</string>
+ 		</dict>
+@@ -124,6 +134,8 @@
+ 			<string>QuickTime Movie</string>
+ 			<key>CFBundleTypeRole</key>
+ 			<string>Viewer</string>
++			<key>LSHandlerRank</key>
++			<string>Alternate</string>
+ 			<key>NSDocumentClass</key>
+ 			<string>SBDocument</string>
+ 		</dict>
+@@ -136,6 +148,8 @@
+ 			<string>Ringtone</string>
+ 			<key>CFBundleTypeRole</key>
+ 			<string>Editor</string>
++			<key>LSHandlerRank</key>
++			<string>Alternate</string>
+ 			<key>NSDocumentClass</key>
+ 			<string>SBDocument</string>
+ 		</dict>

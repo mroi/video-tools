@@ -15,7 +15,7 @@ all: $(ACTIVE_TOOLS)
 			(AtomicParsley) echo '0.9.6.' ;; \
 			(HandBrakeCLI) echo '0.10.0.' ;; \
 			(MP4Box) echo '0.5.0-rev4065.' ;; \
-			(Subler.app) echo '0.30.' ;; \
+			(Subler.app) echo '0.31.' ;; \
 			(ffmpeg) echo 'from current Git.' ;; \
 			(sox) echo '14.4.1.' ;; \
 		esac ; \
