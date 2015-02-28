@@ -16,9 +16,9 @@ HANDBRAKE_VIDEO='--encoder x264 --quality 23 --format mp4 --modulus 2'
 HANDBRAKE_AUDIO_AAC='--aencoder ca_aac          --ab 128      --arate 48      --mixdown dpl2'
 HANDBRAKE_AUDIO_AC3='--aencoder ca_aac,copy:ac3 --ab 128,auto --arate 48,auto --mixdown dpl2,auto'
 
-HANDBRAKE_X264_IPOD='--x264-preset slower --h264-profile baseline --h264-level 3.0'
-HANDBRAKE_X264_ATV1='--x264-preset slower --h264-profile main     --h264-level 3.1 --encopts cabac=0:ref=2:bframes=8:b-pyramid=none:weightb=0:weightp=0:vbv-maxrate=9500:vbv-bufsize=9500'
-HANDBRAKE_X264_ATV3='--x264-preset slower --h264-profile high     --h264-level 4.0'
+HANDBRAKE_X264_IPOD='--x264-preset slow --h264-profile baseline --h264-level 3.0'
+HANDBRAKE_X264_ATV1='--x264-preset slow --h264-profile main     --h264-level 3.1 --encopts cabac=0:ref=2:bframes=8:b-pyramid=none:weightb=0:weightp=0:vbv-maxrate=9500:vbv-bufsize=9500'
+HANDBRAKE_X264_ATV3='--x264-preset slow --h264-profile high     --h264-level 4.0'
 
 # defaults
 audio=1
