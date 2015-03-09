@@ -13,7 +13,7 @@ all: $(ACTIVE_TOOLS)
 		echo 'Please get $@. Recommended version \c' ; \
 		case $@ in \
 			(AtomicParsley) echo '0.9.6.' ;; \
-			(HandBrakeCLI) echo '0.10.0.' ;; \
+			(HandBrakeCLI) echo '0.10.1.' ;; \
 			(MP4Box) echo '0.5.0-rev4065.' ;; \
 			(Subler.app) echo '0.31.' ;; \
 			(ffmpeg) echo 'from current Git.' ;; \
