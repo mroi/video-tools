@@ -15,6 +15,10 @@ The main thing. Takes anything [HandBrake](http://handbrake.fr/) understands and
 canonical iTunes style MPEG-4 with my custom [x264](http://www.videolan.org/developers/x264.html)
 options.
 
+**fixfcpxml.pl**  
+Process XML exports from [Final Cut Pro X](https://www.apple.com/final-cut-pro/), reporting 
+and sanitizing some of my personal pet peeves in projects, like forgotten keywords.
+
 The scripts need a couple of tools along their way. You can place them right here into the 
 project directory, because this will be in `$PATH`. The Makefile will help you collect 
 everything needed or recommended.
