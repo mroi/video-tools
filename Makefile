@@ -1,4 +1,4 @@
-ACTIVE_TOOLS = AtomicParsley HandBrakeCLI MP4Box Subler.app aac_encode ffmpeg h264_frame_rate sox
+ACTIVE_TOOLS = AtomicParsley HandBrakeCLI MP4Box Subler.app aac_encode
 
 .PHONY: all clean
 
@@ -15,9 +15,7 @@ all: $(ACTIVE_TOOLS)
 			(AtomicParsley) echo '0.9.6.' ;; \
 			(HandBrakeCLI) echo '0.10.5.' ;; \
 			(MP4Box) echo '0.5.0-rev4065.' ;; \
-			(Subler.app) echo '0.31.' ;; \
-			(ffmpeg) echo 'from current Git.' ;; \
-			(sox) echo '14.4.1.' ;; \
+			(Subler.app) echo '1.0.9.' ;; \
 		esac ; \
 		false ; \
 	}

@@ -25,7 +25,6 @@ audio=1
 crop=''
 mode=''
 options=''
-pulldown=''
 source=''
 stem=''
 
@@ -48,19 +47,16 @@ for command ; do
 			mode=1920 ;;
 		-*)
 			options="$options $command" ;;
-		*-*)
-			pulldown="$command" ;;
 		*)
 			source="$command" ;;
 	esac
 done
 
 if ! test "$source" -a "$mode" ; then
-	echo "Usage: $(basename "$0") [cropping] [audio channel(s)] [pulldown] [options] 320|640|960|1280|1920 <video>"
+	echo "Usage: $(basename "$0") [cropping] [audio channel(s)] [options] 320|640|960|1280|1920 <video>"
 	echo
 	echo '[cropping]             is of the form <top>:<bottom>:<left>:<right>'
 	echo '[audio channel(s)]     is <num> or <num>,<num>; use the latter to add AC3'
-	echo '[pulldown]             is <from>-<to> and specifies a framerate conversion'
 	echo '[options]              other options to pass to HandBrake'
 	echo '320|640|960|1280|1920  the desired image width; height depends on cropping'
 	echo '<video>                the source video file'
@@ -70,23 +66,6 @@ fi
 stem="${source%.*}"
 test "$source" = "${stem}.eyetv" && source="`echo "$source"/*.mpg`"
 stem="${stem##*/}"
-
-# prepare for pulldown after the encode
-case "$pulldown" in
-	'')
-		;;
-	25-24)
-		HANDBRAKE_VIDEO="$HANDBRAKE_VIDEO --rate 25"
-		# we will generate the AAC track after pulldown
-		# FIXME: 25-24 pulldown therefore only works for sources with an AC3 track
-		audio=${audio##[0-9],}
-		HANDBRAKE_AUDIO_AAC='--aencoder copy:ac3'
-		;;
-	*)
-		echo 'This pulldown is not supported.'
-		exit 1
-		;;
-esac
 
 # set encoding options according to the mode
 case "$mode" in
@@ -127,30 +106,3 @@ esac
 
 # the actual encode
 HandBrakeCLI -i "$source" -o "$stem".m4v --crop "$crop" --audio $audio $HANDBRAKE_OPTIONS $options
-
-# perform pulldown and other postprocessing
-case "$pulldown" in
-	'')
-		# open Subler to enter metadata
-		open -b org.galad.Subler "$stem".m4v
-		;;
-	25-24)
-		mv "$stem".m4v "$stem"_.m4v
-		# demux to H.264 elementary stream (MP4Box synthesizes otherwise missing SPS and PPS)
-		MP4Box -raw 1 "$stem"_.m4v -out "$stem".h264
-		# convert to 24fps
-		h264_frame_rate "$stem".h264
-		# audio pulldown to 24fps, Dolby Prologic II downmix, encode to AAC
-		ffmpeg -i "$stem"_.m4v -f s16le -ac 6 - | sox -t raw -e signed-integer -b 16 -L -c 6 -r 46080 - -t raw -e signed-integer -b 16 -L -r 48000 - remix -m 1v1.0000,3v0.7071,5v-0.8660,6v-0.5000 2v1.0000,3v0.7071,5v0.5000,6v0.8660 | aac_encode "$stem".aac
-		# audio pulldown to 24fps, reencode to AC3
-		ffmpeg -i "$stem"_.m4v -f s16le -ac 6 - | sox -t raw -e signed-integer -b 16 -L -c 6 -r 46080 - -t raw -e signed-integer -b 16 -L -c 6 -r 48000 - | ffmpeg -f s16le -ac 6 -ar 48000 -i - -ab 448k -y "$stem".ac3 2> /dev/null
-		# use Subler to mux raw H.264, AAC and AC3
-		echo
-		echo "Please multiplex \"$stem.h264\", \"$stem.aac\" and \"$stem.ac3\"."
-		echo '• Set the H.264 stream to 24fps.'
-		echo '• Name the AAC and AC3 streams "Stereo" and "Surround" and assign them both to alternate group 1, with the AAC track being the fallback for the AC3.'
-		echo '• Disable the AC3 stream.'
-		echo '• Save with 64-bit file offsets.'
-		open -b org.galad.Subler
-		;;
-esac
