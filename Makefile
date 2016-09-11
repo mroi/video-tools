@@ -14,8 +14,8 @@ all: $(ACTIVE_TOOLS)
 		case $@ in \
 			(AtomicParsley) echo '0.9.6.' ;; \
 			(HandBrakeCLI) echo '0.10.5.' ;; \
-			(MP4Box) echo '0.5.0-rev4065.' ;; \
-			(Subler.app) echo '1.0.9.' ;; \
+			(MP4Box) echo '0.6.1.' ;; \
+			(Subler.app) echo '1.1.3.' ;; \
 		esac ; \
 		false ; \
 	}
