@@ -26,6 +26,12 @@ sub container {
 	}
 	return container($node);
 }
+sub timevalue {
+	return 0 unless defined $_[0];
+	my @pieces = split '/', ($_[0] =~ s/s$//r);
+	$pieces[1] = 1 unless defined $pieces[1];
+	return $pieces[0] / $pieces[1];
+}
 sub remove {
 	$_[0]->parentNode->removeChild($_[0]->previousSibling()) if $_[0]->previousSibling()->nodeType == XML_TEXT_NODE;
 	$_[0]->parentNode->removeChild($_[0]);
@@ -47,6 +53,19 @@ for my $node ($xml->findnodes('//keyword')) {
 	}
 	next if $allKnown;
 	print STDERR 'keyword ‘' . $keywords . '’ in ' . $container . "\n";
+	remove $node;
+}
+
+# remove markers unless they are visible in a project timeline
+for my $node ($xml->findnodes('//marker')) {
+	my $container = container($node);
+	if ($container =~ /^project / and $node->parentNode->nodeName =~ /^(clip|mc-clip|video|transition)$/) {
+		my $marker = timevalue($node->getAttribute('start'));
+		my $start = $node->parentNode->nodeName eq 'transition' ? 3600 : timevalue($node->parentNode->getAttribute('start'));
+		my $stop = $start + timevalue($node->parentNode->getAttribute('duration'));
+		next if ($marker >= $start and $marker < $stop);
+	}
+	print STDERR 'marker ‘' . $node->getAttribute('value') . '’ in ' . $container . "\n";
 	remove $node;
 }
 
