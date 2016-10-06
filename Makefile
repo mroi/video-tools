@@ -15,7 +15,7 @@ all: $(ACTIVE_TOOLS)
 			(AtomicParsley) echo '0.9.6.' ;; \
 			(HandBrakeCLI) echo '0.10.5.' ;; \
 			(MP4Box) echo '0.6.1.' ;; \
-			(Subler.app) echo '1.1.3.' ;; \
+			(Subler.app) echo '1.1.5.' ;; \
 		esac ; \
 		false ; \
 	}

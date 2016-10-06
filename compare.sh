@@ -7,7 +7,7 @@ tmpdir="`mktemp -d -t mp4-compare`"
 mkfifo "$tmpdir/track"
 
 function fingerprint() {
-	file --brief --mime-type "$1" | fgrep -q /mp4 || return
+	file --brief --mime-type "$1" | egrep -q '/(mp4|x-m4[av])$' || return
 	AtomicParsley "$1" -T + | sed -n '/^Movie duration/,$p'
 	for ((i=1;i;i++)) ; do
 		MP4Box "$1" -info $i 2>&1 | fgrep -q 'No track' && break
