@@ -59,7 +59,7 @@ for my $node ($xml->findnodes('//keyword')) {
 # remove markers unless they are visible in a project timeline
 for my $node ($xml->findnodes('//marker')) {
 	my $container = container($node);
-	if ($container =~ /^project / and $node->parentNode->nodeName =~ /^(clip|mc-clip|video|transition)$/) {
+	if ($container =~ /^project / and $node->parentNode->nodeName =~ /^(asset-clip|mc-clip|ref-clip|sync-clip|video|transition)$/) {
 		my $marker = timevalue($node->getAttribute('start'));
 		my $start = $node->parentNode->nodeName eq 'transition' ? 3600 : timevalue($node->parentNode->getAttribute('start'));
 		my $stop = $start + timevalue($node->parentNode->getAttribute('duration'));
