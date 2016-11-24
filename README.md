@@ -2,7 +2,9 @@ Video Tools
 ===========
 
 This is a compilation of a bunch of scripts and small helper tools that I use to process and 
-manage movies and other media in iTunes style MPEG-4 format. Among them are:
+manage movies and other media in Apple-style MPEG-4 format. It also contains some scripts 
+for [Final Cut Pro X](https://www.apple.com/final-cut-pro/) project maintenance. Among them 
+are:
 
 **aac_encode**  
 Pipe in a 48kHz stereo s16le PCM stream. Uses QuickTime to convert to AAC.
@@ -11,17 +13,16 @@ Pipe in a 48kHz stereo s16le PCM stream. Uses QuickTime to convert to AAC.
 Compares MPEG-4 files with regard to the tracks they contain and their metadata.
 
 **encode.sh**  
-The main thing. Takes anything [HandBrake](http://handbrake.fr/) understands and encodes to
-canonical iTunes style MPEG-4 with my custom [x264](http://www.videolan.org/developers/x264.html)
+Takes anything [HandBrake](http://handbrake.fr/) understands and encodes to canonical 
+Apple-style MPEG-4 with my custom [x264](http://www.videolan.org/developers/x264.html) 
 options.
 
 **fcpdump.swift**  
-Normalizes XML exports from [Final Cut Pro X](https://www.apple.com/final-cut-pro/) to make 
-them suitable for diff’ing.
+Normalizes XML exports from Final Cut Pro X to make them suitable for diff’ing.
 
 **fcpfix.pl**  
-Process XML exports from [Final Cut Pro X](https://www.apple.com/final-cut-pro/), reporting 
-and sanitizing some of my personal pet peeves in projects, like forgotten keywords.
+Process XML exports from Final Cut Pro X, reporting and sanitizing some of my personal pet 
+peeves in projects, like forgotten keywords.
 
 The scripts need a couple of tools along their way. You can place them right here into the 
 project directory, because this will be in `$PATH`. The Makefile will help you collect 
