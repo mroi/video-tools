@@ -15,6 +15,10 @@ The main thing. Takes anything [HandBrake](http://handbrake.fr/) understands and
 canonical iTunes style MPEG-4 with my custom [x264](http://www.videolan.org/developers/x264.html)
 options.
 
+**fcpdump.swift**  
+Normalizes XML exports from [Final Cut Pro X](https://www.apple.com/final-cut-pro/) to make 
+them suitable for diff’ing.
+
 **fixfcpxml.pl**  
 Process XML exports from [Final Cut Pro X](https://www.apple.com/final-cut-pro/), reporting 
 and sanitizing some of my personal pet peeves in projects, like forgotten keywords.
