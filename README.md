@@ -19,7 +19,7 @@ options.
 Normalizes XML exports from [Final Cut Pro X](https://www.apple.com/final-cut-pro/) to make 
 them suitable for diff’ing.
 
-**fixfcpxml.pl**  
+**fcpfix.pl**  
 Process XML exports from [Final Cut Pro X](https://www.apple.com/final-cut-pro/), reporting 
 and sanitizing some of my personal pet peeves in projects, like forgotten keywords.
 
