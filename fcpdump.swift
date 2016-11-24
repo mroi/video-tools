@@ -11,13 +11,13 @@ guard CommandLine.argc == 2 else {
 let url = URL(fileURLWithPath: CommandLine.arguments[1])
 let xml = try XMLDocument(contentsOf: url, options: 0)
 
-/* delete unstable nodes */
+/* delete nodes that change non-deterministically between exports */
 // FIXME: check what’s really going on here
-let unstablePaths = "/fcpxml/resources/asset/bookmark" + "|" +
+let changingPaths = "/fcpxml/resources/asset/bookmark" + "|" +
 	"/fcpxml/resources/asset/@id" + "|" +
 	"/fcpxml/resources/media//@ref" + "|" +
 	"/fcpxml/library/event//@ref"
-try xml.nodes(forXPath: unstablePaths).forEach { $0.detach() }
+try xml.nodes(forXPath: changingPaths).forEach { $0.detach() }
 
 /* sort resource and event nodes */
 try xml.nodes(forXPath: "/fcpxml/resources|/fcpxml/library/event").forEach { node in
