@@ -7,15 +7,15 @@ HANDBRAKE_VIDEO='--format mp4 --modulus 2 --encoder x264 --quality 23'
 HANDBRAKE_AUDIO='--aencoder ca_aac --ab 128 --arate 48 --mixdown dpl2'
 
 HANDBRAKE_ANY='--custom-anamorphic --keep-display-aspect'
-HANDBRAKE_320='--width 320 --denoise strong'
+HANDBRAKE_320='--width 320 --hqdn3d=strong'
 HANDBRAKE_640='--width 640'
 HANDBRAKE_960='--large-file --width 960'
 HANDBRAKE_1280='--large-file --width 1280'
 HANDBRAKE_1920='--large-file --width 1920'
 
-HANDBRAKE_X264_IPOD='--x264-preset slow --h264-profile baseline --h264-level 3.0'
-HANDBRAKE_X264_ATV1='--x264-preset slow --h264-profile main --h264-level 3.1 --encopts cabac=0:ref=2:bframes=8:b-pyramid=none:weightb=0:weightp=0:vbv-maxrate=9500:vbv-bufsize=9500'
-HANDBRAKE_X264_ATV4='--x264-preset slow --h264-profile high --h264-level 4.1'
+HANDBRAKE_X264_IPOD='--encoder-preset slow --encoder-profile baseline --encoder-level 3.0'
+HANDBRAKE_X264_ATV1='--encoder-preset slow --encoder-profile main --encoder-level 3.1 --encopts cabac=0:ref=2:bframes=8:b-pyramid=none:weightb=0:weightp=0:vbv-maxrate=9500:vbv-bufsize=9500'
+HANDBRAKE_X264_ATV4='--encoder-preset slow --encoder-profile high --encoder-level 4.1'
 
 # defaults
 audio=true
