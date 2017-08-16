@@ -44,7 +44,7 @@ for command ; do
 			if test -e "$command" ; then
 				source="$command"
 			else
-				options="$options \"$command\""
+				options="$options $command"
 			fi
 			;;
 	esac
