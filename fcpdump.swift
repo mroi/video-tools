@@ -9,7 +9,7 @@ guard CommandLine.argc == 2 else {
 
 /* read XML document */
 let url = URL(fileURLWithPath: CommandLine.arguments[1])
-let xml = try XMLDocument(contentsOf: url, options: 0)
+let xml = try XMLDocument(contentsOf: url)
 
 /* delete nodes that change non-deterministically between exports */
 // FIXME: check what’s really going on here
