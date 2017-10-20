@@ -13,10 +13,8 @@ let xml = try XMLDocument(contentsOf: url)
 
 /* delete nodes that change non-deterministically between exports */
 // FIXME: check what’s really going on here
-let changingPaths = "/fcpxml/resources/asset/bookmark" + "|" +
-	"/fcpxml/resources/asset/@id" + "|" +
-	"/fcpxml/resources/media//@ref" + "|" +
-	"/fcpxml/library/event//@ref"
+let changingPaths = "//@format|//@id|//@ref" + "|" +
+	"/fcpxml/resources/asset/bookmark"
 try xml.nodes(forXPath: changingPaths).forEach { $0.detach() }
 
 /* sort resource and event nodes */
