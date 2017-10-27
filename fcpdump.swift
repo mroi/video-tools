@@ -17,8 +17,10 @@ let changingPaths = "//@format|//@id|//@ref" + "|" +
 	"/fcpxml/resources/asset/bookmark"
 try xml.nodes(forXPath: changingPaths).forEach { $0.detach() }
 
-/* sort resource and event nodes */
-try xml.nodes(forXPath: "/fcpxml/resources|/fcpxml/library/event").forEach { node in
+/* sort nodes whose child nodes flip non-deterministically */
+let flippingPaths = "//clip|//sync-clip" + "|" +
+	"/fcpxml/resources|/fcpxml/library/event"
+try xml.nodes(forXPath: flippingPaths).forEach { node in
 	var elements: [XMLElement] = []
 	node.children?.forEach {
 		if $0.kind == .element {
