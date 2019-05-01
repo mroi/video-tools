@@ -36,8 +36,7 @@ bonus:
 
 %_SD.m4v: %_SD.mkv
 	@echo 'Subler: import $<'
-	@echo '* set AC3 track to passthru'
-	@echo '* clear import metadata'
+	@echo '* disable metadata import and set AC3 to passthrough'
 	@echo '* clear track titles for sound'
 	@echo '* set surround fallback'
 	@echo '* add metadata and chapter titles'
@@ -76,7 +75,8 @@ bonus:
 %.m4v: %.h264 %_SD.m4v
 	@echo 'Subler: import $<'
 	@echo '* set to 25fps'
-	@echo '* import $*_SD.m4v, disable all video tracks'
+	@echo '* import $*_SD.m4v, enable metadata import'
+	@echo '* disable all video tracks'
 	@echo '* set video language to English'
 	@echo '* save as $@'
 	@open -a Subler $<
