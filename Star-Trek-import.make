@@ -7,7 +7,7 @@ X264 ?= nice $(dir $(realpath $(MAKEFILE_LIST)))/x264
 itunes_import = \
 	echo '* import to iTunes' ; \
 	open -R $@ ; \
-	read ; \
+	echo read ; read ; \
 	xattr -c $@ ; \
 	itunes="$$HOME/Music/iTunes/iTunes Media/TV Shows" ; \
 	$(if $(filter TNG_%,$*),itunes="$$itunes/Star Trek_ The Next Generation",:) ; \
