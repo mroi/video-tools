@@ -1,4 +1,4 @@
-SEASONS ?= $(SEASON) $(wildcard TNG_[0-9]) $(wildcard DS9_[0-9])
+SEASONS ?= $(or $(SEASON),$(wildcard TNG_[0-9]) $(wildcard DS9_[0-9]))
 TITLES ?= 2 3 4 5
 FFMPEG ?= ffmpeg
 HANDBRAKE ?= $(dir $(realpath $(MAKEFILE_LIST)))/HandBrakeCLI
