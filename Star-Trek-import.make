@@ -29,7 +29,7 @@ dvd: $(filter %.mkv,$(START:_HD.h264=_SD.mkv))
 
 bonus:
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb=bob --rate 50 --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --aencoder ca_aac --ab 128 --arate 48 --mixdown dpl2 --subtitle 3,1,2,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(lastword $(SEASONS))/$$((101 + title - $(firstword $(TITLES))))_SD.mkv ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb=bob --rate 50 --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --aencoder ca_aac --ab 128 --arate 48 --mixdown dpl2 --subtitle 3,1,2,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(lastword $(SEASONS))/$$((101 + title - $(firstword $(TITLES)))).mkv ; \
 	done
 
 %_HD.h264:
