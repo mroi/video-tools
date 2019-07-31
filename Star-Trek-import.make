@@ -47,6 +47,7 @@ bonus:
 	@for title in $(TITLES) ; do \
 		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --encoder x264 --quality 23 --encoder-preset ultrafast --encoder-profile high --encoder-level 4.1 --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 3,1,2,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(@D)/`printf %02d_SD.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))` ; \
 	done
+	diskutil eject /Volumes/EU_*
 
 %.mkv:
 	@echo 'Handbrake: import $@ from title $(firstword $(TITLES))'
@@ -56,6 +57,7 @@ bonus:
 	@for title in $(TITLES) ; do \
 		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --hqdn3d=light --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 2,3,4,5,6,7,8,9,10 -i /Volumes/EU_* --title $$title -o $(@D)/`printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))` ; \
 	done
+	diskutil eject /Volumes/EU_*
 
 %_SD.m4v: %_SD.mkv
 	@echo 'Subler: import $<'
