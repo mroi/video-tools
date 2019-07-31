@@ -60,12 +60,12 @@ static int traverse_atom_tree(FILE *file, const uint32_t *path, uint32_t limit)
 			printf("atom found, going one level in\n");
 			unsigned extra_data = 0;  // some atoms have properties before sub-atoms
 			switch (type) {
-				case ATOM('s', 't', 's', 'd'):
-					extra_data = 8;
-					break;
-				case ATOM('a', 'c', '-', '3'):
-					extra_data = 28;
-					break;
+			case ATOM('s', 't', 's', 'd'):
+				extra_data = 8;
+				break;
+			case ATOM('a', 'c', '-', '3'):
+				extra_data = 28;
+				break;
 			}
 			if (extra_data) {
 				if (fseek(file, extra_data, SEEK_CUR) != 0)
