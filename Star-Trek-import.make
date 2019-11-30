@@ -4,15 +4,15 @@ FFMPEG ?= ffmpeg
 HANDBRAKE ?= $(dir $(realpath $(MAKEFILE_LIST)))/HandBrakeCLI
 X264 ?= nice $(dir $(realpath $(MAKEFILE_LIST)))/x264
 
-itunes_import = \
-	echo '* import to iTunes' ; \
+atv_import = \
+	echo '* import to TV' ; \
 	open -R $@ ; \
 	echo read ; read ; \
 	xattr -c $@ ; \
-	itunes="$$HOME/Music/iTunes/iTunes Media/TV Shows" ; \
-	$(if $(filter TNG_%,$*),itunes="$$itunes/Star Trek_ The Next Generation",:) ; \
-	$(if $(filter DS9_%,$*),itunes="$$itunes/Star Trek_ Deep Space Nine",:) ; \
-	name="$$(ls "$$itunes/`echo $* | sed 's/..._/Season /'` "*)" ; \
+	atv="$$HOME/Movies/TV/Media/TV Shows" ; \
+	$(if $(filter TNG_%,$*),atv="$$atv/Star Trek_ The Next Generation",:) ; \
+	$(if $(filter DS9_%,$*),atv="$$atv/Star Trek_ Deep Space Nine",:) ; \
+	name="$$(ls "$$atv/`echo $* | sed 's/..._/Season /'` "*)" ; \
 	mkdir -p "`dirname "/Volumes/Thunderbolt HD$$name"`" ; \
 	ln $@ "/Volumes/Thunderbolt HD$$name" ; \
 	rm "$$name" ; ln -s "/Volumes/Thunderbolt HD$$name" "$$name"
@@ -107,7 +107,7 @@ bonus:
 	@open -a Subler $<
 	@open -R $*_SD.m4v
 	read
-	@$(itunes_import)
+	@$(atv_import)
 
 %.m4v: %.mkv
 	@echo 'Subler: import $<'
@@ -119,4 +119,4 @@ bonus:
 	@echo '* save as $@'
 	@open -a Subler $<
 	read
-	@$(itunes_import)
+	@$(atv_import)
