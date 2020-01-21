@@ -1,5 +1,5 @@
 SEASONS ?= $(or $(SEASON),$(wildcard TNG_[0-9]) $(wildcard DS9_[0-9]))
-TITLES ?= $(if $(filter TNG%,$*),2 3 4 5,1 2 3 4)
+TITLES ?= 2 3 4 5
 FFMPEG ?= ffmpeg
 HANDBRAKE ?= $(dir $(realpath $(MAKEFILE_LIST)))/HandBrakeCLI
 X264 ?= nice $(dir $(realpath $(MAKEFILE_LIST)))/x264
@@ -55,7 +55,7 @@ bonus:
 	@echo '* extract chapter titles'
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --nlmeans=light --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 3,2,1,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --nlmeans=light --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 2,4,3,5,6,7,8,9,10 -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
 	done
 	diskutil eject /Volumes/EU_*
 
