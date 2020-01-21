@@ -7,7 +7,7 @@ X264 ?= nice $(dir $(realpath $(MAKEFILE_LIST)))/x264
 atv_import = \
 	echo '* import to TV' ; \
 	open -R $@ ; \
-	echo read ; read ; \
+	echo read ; read _ ; \
 	xattr -c $@ ; \
 	atv="$$HOME/Movies/TV/Media/TV Shows" ; \
 	$(if $(filter TNG_%,$*),atv="$$atv/Star Trek_ The Next Generation",:) ; \
@@ -34,7 +34,7 @@ bonus:
 
 %_HD.h264:
 	@for episode in /Volumes/Extern\ HD/TNG/$(@D)/* ; do \
-		target=$(@D)/`echo "$${episode}" | cut -c33-34`_HD.h264 ; \
+		target=$(@D)/$$(echo "$${episode}" | cut -c33-34)_HD.h264 ; \
 		test -f $$target && continue ; \
 		$(FFMPEG) -i "$$episode" -vcodec copy $$target ; \
 	done
@@ -45,7 +45,7 @@ bonus:
 	@echo '* extract chapter titles'
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --encoder x264 --quality 23 --encoder-preset ultrafast --encoder-profile high --encoder-level 4.1 --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 3,1,2,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(@D)/`printf %02d_SD.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))` ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --encoder x264 --quality 23 --encoder-preset ultrafast --encoder-profile high --encoder-level 4.1 --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 3,1,2,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d_SD.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
 	done
 	diskutil eject /Volumes/EU_*
 
@@ -55,7 +55,7 @@ bonus:
 	@echo '* extract chapter titles'
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --nlmeans=light --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 3,2,1,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(@D)/`printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))` ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --nlmeans=light --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 3,2,1,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
 	done
 	diskutil eject /Volumes/EU_*
 
@@ -68,7 +68,7 @@ bonus:
 	@echo '* save as $@'
 	@open -a Subler $<
 	@open Metadaten.numbers
-	read
+	read _
 	@! ffmpeg -i $@ 2>&1 | fgrep -q 'Chapter 1' || { echo 'Chapter titles not set.' && false ; }
 
 %_HD.m4v: %_HD.h264
@@ -76,7 +76,7 @@ bonus:
 	@echo '* set to 25fps'
 	@echo '* save as $@'
 	@open -a Subler $<
-	read
+	read _
 
 %.h264: %_HD.h264 %_SD.m4v %_HD.m4v
 	@echo 'Final Cut Pro:'
@@ -88,12 +88,12 @@ bonus:
 	@open -R $*_SD.m4v
 	cat > $*_EDL
 	@i=0 ; while read start duration ; do \
-		fifo=`printf $*_%02d $$i` ; \
+		fifo=$$(printf $*_%02d $$i) ; \
 		mkfifo $$fifo ; \
 		$(FFMPEG) -v quiet -i $< -f rawvideo -vsync 0 -vf "select=gte(n\,$$start)" -frames:v $$duration -y $$fifo & \
 		i=$$((i+1)) ; \
 	done < $*_EDL
-	@res=`ffmpeg -i $< 2>&1 | egrep -o '[0-9]+x[0-9]+'` ; \
+	@res=$$(ffmpeg -i $< 2>&1 | egrep -o '[0-9]+x[0-9]+') ; \
 	cat $*_[0-9]* | caffeinate $(X264) --input-res $$res --fps 25 --range tv --colorprim bt709 --transfer bt709 --colormatrix bt709 --profile high --level 4.1 --preset medium --crf 23 -o $@ - ; \
 	rm $*_EDL $*_[0-9]*
 
@@ -106,7 +106,7 @@ bonus:
 	@echo '* save as $@'
 	@open -a Subler $<
 	@open -R $*_SD.m4v
-	read
+	read _
 	@$(atv_import)
 
 %.m4v: %.mkv
@@ -118,5 +118,5 @@ bonus:
 	@echo '* add metadata and chapter titles'
 	@echo '* save as $@'
 	@open -a Subler $<
-	read
+	read _
 	@$(atv_import)
