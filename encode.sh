@@ -1,7 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
 # you can put the tools next to the script
-PATH="`perl -e 'use File::Basename; use Cwd "abs_path";print dirname(abs_path($ARGV[0]));' "$0"`:$PATH"
+# shellcheck disable=SC2164
+self=$(
+	test -z "$(dirname "$0")" && cd "$(command -v "$0")"
+	test -d "$(dirname "$0")" && cd "$(dirname "$0")"
+	test -L "$0" && cd "$(dirname "$(readlink "$0")")"
+	pwd
+)
+PATH=$self:$PATH
 
 HANDBRAKE_VIDEO='--format mp4 --modulus 2 --encoder x264 --quality 23'
 HANDBRAKE_AUDIO='--aencoder ca_aac --ab 128 --arate 48 --mixdown dpl2'
@@ -84,4 +91,5 @@ fi
 
 # the actual encode
 set -x
+# shellcheck disable=SC2086
 HandBrakeCLI -i "$source" -o "$stem".m4v $HANDBRAKE_OPTIONS $options

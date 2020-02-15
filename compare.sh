@@ -1,19 +1,28 @@
-#!/bin/bash
+#!/bin/sh
 
 # you can put the tools next to the script
-PATH="`perl -e 'use File::Basename; use Cwd "abs_path";print dirname(abs_path($ARGV[0]));' "$0"`:$PATH"
+# shellcheck disable=SC2164
+self=$(
+	test -z "$(dirname "$0")" && cd "$(command -v "$0")"
+	test -d "$(dirname "$0")" && cd "$(dirname "$0")"
+	test -L "$0" && cd "$(dirname "$(readlink "$0")")"
+	pwd
+)
+PATH=$self:$PATH
 
-tmpdir="`mktemp -d -t mp4-compare`"
+tmpdir=$(mktemp -d -t mp4-compare)
 mkfifo "$tmpdir/track"
 
-function fingerprint() {
-	file --brief --mime-type "$1" | egrep -q '/(mp4|x-m4[av])$' || return
+fingerprint() {
+	file --brief --mime-type "$1" | grep -Eq '/(mp4|x-m4[av])$' || return
 	AtomicParsley "$1" -T + | sed -n '/^Movie duration/,$p'
-	for ((i=1;i;i++)) ; do
-		MP4Box "$1" -info $i 2>&1 | fgrep -q 'No track' && break
-		echo -n "track $i "
+	i=1
+	while true ; do
+		MP4Box "$1" -info $i 2>&1 | grep -Fq 'No track' && break
+		printf "track %d " $i
 		MP4Box -quiet "$1" -raw $i -new -out "$tmpdir/track" &
 		md5 < "$tmpdir/track"
+		i=$((i+1))
 	done
 	AtomicParsley "$1" -e "$tmpdir/embed" > /dev/null
 	md5 "$tmpdir/embed"*
@@ -21,18 +30,19 @@ function fingerprint() {
 	AtomicParsley "$1" -t | sort
 }
 
-function compare() {
-	fp1="$tmpdir/`basename "$1"`-left"
-	fp2="$tmpdir/`basename "$2"`-right"
+compare() {
+	fp1=$tmpdir/$(basename "$1")-left
+	fp2=$tmpdir/$(basename "$2")-right
 	fingerprint "$1" > "$fp1"
 	fingerprint "$2" > "$fp2"
 	cmp -s "$fp1" "$fp2" || diff -u "$fp1" "$fp2"
 }
 
-if test -d "${@: -1}" ; then
+for last ; do true ; done
+if test -d "$last" ; then
 	for arg ; do
-		test "$arg" = "${@: -1}" && break
-		compare "$arg" "${@: -1}/`basename "$arg"`"
+		test "$arg" = "$last" && break
+		compare "$arg" "$last/$(basename "$arg")"
 	done
 else
 	compare "$1" "$2"
