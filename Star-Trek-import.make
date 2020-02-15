@@ -1,15 +1,29 @@
-SEASONS ?= $(SEASON) $(wildcard Season_[0-9])
+SEASONS ?= $(SEASON) $(wildcard TNG_[0-9]) $(wildcard DS9_[0-9])
 TITLES ?= 2 3 4 5
 FFMPEG ?= ffmpeg
 HANDBRAKE ?= $(dir $(realpath $(MAKEFILE_LIST)))/HandBrakeCLI
 X264 ?= nice $(dir $(realpath $(MAKEFILE_LIST)))/x264
-ITUNES ?= /Users/Michael/Music/iTunes/iTunes Media/TV Shows/Star Trek_ The Next Generation
 
-START = $(foreach season,$(SEASONS),$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264)
+itunes_import = \
+	echo '* import to iTunes' ; \
+	open -R $@ ; \
+	read ; \
+	xattr -c $@ ; \
+	itunes="$$HOME/Music/iTunes/iTunes Media/TV Shows" ; \
+	$(if $(filter TNG_%,$*),itunes="$$itunes/Star Trek_ The Next Generation",:) ; \
+	$(if $(filter DS9_%,$*),itunes="$$itunes/Star Trek_ Deep Space Nine",:) ; \
+	name="$$(ls "$$itunes/`echo $* | sed 's/..._/Season /'` "*)" ; \
+	mkdir -p "`dirname "/Volumes/Thunderbolt HD$$name"`" ; \
+	ln $@ "/Volumes/Thunderbolt HD$$name" ; \
+	rm "$$name" ; ln -s "/Volumes/Thunderbolt HD$$name" "$$name"
 
-all: $(START)
-all: $(patsubst %_HD.h264,%.m4v,$(START))
-dvd: $(patsubst %_HD.h264,%_SD.mkv,$(START))
+START = $(foreach season,$(SEASONS), \
+		$(if $(filter TNG_%,$(season)),$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264) \
+		$(if $(filter DS9_%,$(season)),$(wildcard $(season)/*.mkv) $(season)/01.mkv) \
+	)
+
+all: $(foreach episode,$(START),$(episode:_HD.h264=.m4v) $(episode:.mkv=.m4v))
+dvd: $(filter %.mkv,$(START:_HD.h264=_SD.mkv))
 
 .PRECIOUS: %_HD.h264 %_SD.m4v %_SD.mkv
 
@@ -32,6 +46,15 @@ bonus:
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
 		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --encoder x264 --quality 23 --encoder-preset ultrafast --encoder-profile high --encoder-level 4.1 --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 2,3,4,5,6,7,8,9,10 -i /Volumes/EU_* --title $$title -o $(@D)/`printf %02d_SD.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))` ; \
+	done
+
+%.mkv:
+	@echo 'Handbrake: import $@ from title $(firstword $(TITLES))'
+	@echo '* insert the next DVD to import'
+	@echo '* extract chapter titles'
+	./Capitalization.pl | pbcopy
+	@for title in $(TITLES) ; do \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --hqdn3d=light --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 2,3,4,5,6,7,8,9,10 -i /Volumes/EU_* --title $$title -o $(@D)/`printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))`
 	done
 
 %_SD.m4v: %_SD.mkv
@@ -82,11 +105,16 @@ bonus:
 	@open -a Subler $<
 	@open -R $*_SD.m4v
 	read
-	@echo '* import to iTunes'
-	@open -R $@
+	@$(itunes_import)
+
+%.m4v: %.mkv
+	@echo 'Subler: import $<'
+	@echo '* disable metadata import and set AC3 to passthrough'
+	@echo '* set video language to English'
+	@echo '* clear track titles for sound'
+	@echo '* set surround fallback'
+	@echo '* add metadata and chapter titles'
+	@echo '* save as $@'
+	@open -a Subler $<
 	read
-	xattr -c $@
-	name="$$(ls "$(ITUNES)/`echo $* | tr _ ' '` "*)" ; \
-	mkdir -p "`dirname "/Volumes/Thunderbolt HD$$name"`" ; \
-	ln $@ "/Volumes/Thunderbolt HD$$name" ; \
-	rm "$$name" ; ln -s "/Volumes/Thunderbolt HD$$name" "$$name"
+	@$(itunes_import)
