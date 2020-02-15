@@ -9,13 +9,13 @@ atv_import = \
 	open -R $@ ; \
 	echo read ; read _ ; \
 	xattr -c $@ ; \
-	atv="$$HOME/Movies/TV/Media/TV Shows" ; \
-	$(if $(filter TNG_%,$*),atv="$$atv/Star Trek_ The Next Generation",:) ; \
-	$(if $(filter DS9_%,$*),atv="$$atv/Star Trek_ Deep Space Nine",:) ; \
-	name="$$(ls "$$atv/`echo $* | sed 's/..._/Season /'` "*)" ; \
-	mkdir -p "`dirname "/Volumes/Thunderbolt HD$$name"`" ; \
-	ln $@ "/Volumes/Thunderbolt HD$$name" ; \
-	rm "$$name" ; ln -s "/Volumes/Thunderbolt HD$$name" "$$name"
+	tv="$$HOME/Movies/TV/Media/TV Shows" ; \
+	$(if $(filter TNG_%,$*),ep="$$tv/Star Trek_ The Next Generation",:) ; \
+	$(if $(filter DS9_%,$*),ep="$$tv/Star Trek_ Deep Space Nine",:) ; \
+	ep="$$(ls "$$ep/$$(echo $* | sed 's/..._/Season /') "*)" ; \
+	target="$$(echo "/Volumes/Thunderbolt HD$$ep" | sed 's|/Media/|/Filmarchiv/|')" ; \
+	mkdir -p "$$(dirname "$$target")" ; ln $@ "$$target" ; \
+	rm "$$ep" ; ln -s "../../../../Filmarchiv/TV Shows/$${ep\#$$tv/}" "$$ep"
 
 START = $(foreach season,$(SEASONS), \
 		$(if $(filter TNG_%,$(season)),$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264) \
