@@ -1,8 +1,8 @@
-ACTIVE_TOOLS = AtomicParsley HandBrakeCLI MP4Box Subler.app aac_encode
+TOOLS = AtomicParsley HandBrakeCLI MP4Box Subler.app aac_encode
 
 .PHONY: all clean
 
-all: $(ACTIVE_TOOLS)
+all: $(TOOLS)
 
 %: Source/%.c
 	$(CC) -O3 -Weverything -o $@ $< \
