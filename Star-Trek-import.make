@@ -17,13 +17,12 @@ atv_import = \
 	mkdir -p "$$(dirname "$$target")" ; ln $@ "$$target" ; \
 	rm "$$ep" ; ln -s "../../../../Filmarchiv/TV Shows/$${ep\#$$tv/}" "$$ep"
 
-START = $(foreach season,$(SEASONS), \
-		$(if $(filter TNG_%,$(season)),$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264) \
-		$(if $(filter DS9_%,$(season)),$(wildcard $(season)/*.mkv) $(season)/01.mkv) \
-	)
-
-all: $(foreach episode,$(START),$(episode:_HD.h264=.m4v) $(episode:.mkv=.m4v))
-dvd: $(filter %.mkv,$(START:_HD.h264=_SD.mkv))
+all: $(foreach season,$(SEASONS), \
+	$(if $(filter TNG_%,$(season)),$(patsubst %_HD.h264,%.m4v,$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264)) \
+	$(if $(filter DS9_%,$(season)),$(patsubst %.mkv,%.m4v,$(wildcard $(season)/*.mkv))))
+dvd: $(foreach season,$(SEASONS), \
+	$(if $(filter TNG_%,$(season)),$(patsubst %_HD.h264,%_SD.mkv,$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264)) \
+	$(if $(filter DS9_%,$(season)),$(shell printf '$(season)/%02d.mkv' $$(($(basename $(notdir $(lastword $(sort $(wildcard $(season)/*.mkv)))))+1)))))
 
 .PRECIOUS: %_HD.h264 %_SD.m4v %_SD.mkv
 
