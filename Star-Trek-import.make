@@ -1,8 +1,22 @@
-SEASONS ?= $(or $(SEASON),$(wildcard TNG_[0-9]) $(wildcard DS9_[0-9]))
-TITLES ?= 2 3 4 5
 FFMPEG ?= ffmpeg
 HANDBRAKE ?= $(dir $(realpath $(MAKEFILE_LIST)))/HandBrakeCLI
 X264 ?= nice $(dir $(realpath $(MAKEFILE_LIST)))/x264
+
+SEASONS ?= $(or $(SEASON),$(wildcard TNG_[1-7]) $(wildcard DS9_[1-7]) $(wildcard VOY_[1-7]))
+TITLES ?= $(or $(shell case $@ in \
+	(DS9*) echo 2 3 4 5 ;; \
+	(VOY*) echo 1 2 3 4 ;; \
+	esac),$(error DVD title structure unknown))
+AUDIO ?= $(or $(shell case $@ in \
+	(TNG*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
+	(DS9*) echo --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
+	(VOY*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
+	esac),$(error DVD audio arrangement unknown))
+SUBTITLES ?= $(or $(shell case $@ in \
+	(TNG*) echo --subtitle 3,1,2,4,5,6,7,8,9 ;; \
+	(DS9*) echo --subtitle 2,4,3,5,6,7,8,9,10 ;; \
+	(VOY*) echo --subtitle 3,2,1,4,5,6,7,8,9 ;; \
+	esac),$(error DVD subtitle arrangement unknown))
 
 atv_import = \
 	echo '* import to TV' ; \
@@ -12,6 +26,7 @@ atv_import = \
 	tv="$$HOME/Movies/TV/Media/TV Shows" ; \
 	$(if $(filter TNG_%,$*),ep="$$tv/Star Trek_ The Next Generation",:) ; \
 	$(if $(filter DS9_%,$*),ep="$$tv/Star Trek_ Deep Space Nine",:) ; \
+	$(if $(filter VOY_%,$*),ep="$$tv/Star Trek_ Voyager",:) ; \
 	ep="$$(ls "$$ep/$$(echo $* | sed 's/..._/Season /') "*)" ; \
 	target="$$(echo "/Volumes/Thunderbolt HD$$ep" | sed 's|/Media/|/Filmarchiv/|')" ; \
 	mkdir -p "$$(dirname "$$target")" ; ln $@ "$$target" ; \
@@ -19,16 +34,20 @@ atv_import = \
 
 all: $(foreach season,$(SEASONS), \
 	$(if $(filter TNG_%,$(season)),$(patsubst %_HD.h264,%.m4v,$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264)) \
-	$(if $(filter DS9_%,$(season)),$(patsubst %.mkv,%.m4v,$(wildcard $(season)/*.mkv))))
+	$(if $(filter DS9_%,$(season)),$(patsubst %.mkv,%.m4v,$(wildcard $(season)/*.mkv))) \
+	$(if $(filter VOY_%,$(season)),$(patsubst %.mkv,%.m4v,$(wildcard $(season)/*.mkv))))
 dvd: $(foreach season,$(SEASONS), \
 	$(if $(filter TNG_%,$(season)),$(patsubst %_HD.h264,%_SD.mkv,$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264)) \
-	$(if $(filter DS9_%,$(season)),$(shell printf '$(season)/%02d.mkv' $$(($(basename $(notdir $(lastword $(sort $(wildcard $(season)/*.mkv)))))+1)))))
+	$(if $(filter DS9_%,$(season)),$(shell printf '$(season)/%02d.mkv' $$(($(basename $(notdir $(lastword $(sort $(wildcard $(season)/*.mkv)))))+1)))) \
+	$(if $(filter VOY_%,$(season)),$(shell printf '$(season)/%02d.mkv' $$(($(basename $(notdir $(lastword $(sort $(wildcard $(season)/*.mkv)))))+1)))))
 
 .PRECIOUS: %_HD.h264 %_SD.m4v %_SD.mkv
 
 bonus:
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb=bob --rate 50 --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --aencoder ca_aac --ab 128 --arate 48 --mixdown dpl2 --subtitle 3,1,2,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(lastword $(SEASONS))/$$((101 + title - $(firstword $(TITLES)))).mkv ; \
+		target=$(lastword $(SEASONS))/$$((101 + title - $(firstword $(TITLES)))).mkv ; \
+		test -f $$target && continue ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb=bob --rate 50 --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --aencoder ca_aac --ab 128 --arate 48 --mixdown dpl2 $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $$target ; \
 	done
 
 %_HD.h264:
@@ -44,7 +63,7 @@ bonus:
 	@echo '* extract chapter titles'
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --encoder x264 --quality 23 --encoder-preset ultrafast --encoder-profile high --encoder-level 4.1 --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 3,1,2,4,5,6,7,8,9 -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d_SD.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --encoder x264 --quality 23 --encoder-preset ultrafast --encoder-profile high --encoder-level 4.1 $(AUDIO) $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d_SD.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
 	done
 	diskutil eject /Volumes/EU_*
 
@@ -54,7 +73,7 @@ bonus:
 	@echo '* extract chapter titles'
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --nlmeans=light --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 --subtitle 2,4,3,5,6,7,8,9,10 -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb $(if $(filter DS9_%,$@),--nlmeans=light) --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 $(AUDIO) $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
 	done
 	diskutil eject /Volumes/EU_*
 
