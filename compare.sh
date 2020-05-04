@@ -11,7 +11,7 @@ self=$(
 PATH=$self:$PATH
 
 tmpdir=$(mktemp -d -t mp4-compare)
-mkfifo "$tmpdir/track"
+mkfifo "$tmpdir/track.out"
 
 fingerprint() {
 	file --brief --mime-type "$1" | grep -Eq '/(mp4|x-m4[av])$' || return
@@ -20,8 +20,8 @@ fingerprint() {
 	while true ; do
 		MP4Box "$1" -info $i 2>&1 | grep -Fq 'No track' && break
 		printf "track %d " $i
-		MP4Box -quiet "$1" -raw $i -new -out "$tmpdir/track" &
-		md5 < "$tmpdir/track"
+		MP4Box -quiet "$1" -raw "$i:output=$tmpdir/track.out" &
+		md5 < "$tmpdir/track.out"
 		i=$((i+1))
 	done
 	AtomicParsley "$1" -e "$tmpdir/embed" > /dev/null

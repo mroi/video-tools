@@ -13,9 +13,9 @@ all: $(TOOLS)
 		echo 'Please get $@. Recommended version \c' ; \
 		case $@ in \
 			(AtomicParsley) echo '0.9.6.' ;; \
-			(HandBrakeCLI) echo '1.3.1.' ;; \
-			(MP4Box) echo '0.7.1.' ;; \
-			(Subler.app) echo '1.5.14.' ;; \
+			(HandBrakeCLI) echo '1.3.2.' ;; \
+			(MP4Box) echo '0.8.0.' ;; \
+			(Subler.app) echo '1.6.5.' ;; \
 		esac ; \
 		false ; \
 	}
