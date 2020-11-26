@@ -66,8 +66,15 @@ if ! test "$source" ; then
 	exit 1
 fi
 
-stem="${source%.*}"
-stem="${stem##*/}"
+stem=${source%.*}
+stem=${stem##*/}
+
+target="$stem".m4v
+number=1
+while test -e "$target" ; do
+	target="$stem $number".m4v
+	number=$((number + 1))
+done
 
 # set encoding options according to the mode
 case "$mode" in
@@ -90,6 +97,7 @@ if $audio ; then
 fi
 
 # the actual encode
+unset PS4
 set -x
 # shellcheck disable=SC2086
-HandBrakeCLI -i "$source" -o "$stem".m4v $HANDBRAKE_OPTIONS $options
+HandBrakeCLI -i "$source" -o "$target" $HANDBRAKE_OPTIONS $options

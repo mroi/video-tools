@@ -9,10 +9,10 @@ int main(int argc, char **argv)
 {
 	if (argc < 5) return 0;
 	
-	size_t width = atoi(argv[1]);
-	size_t height = atoi(argv[2]);
-	uint_fast8_t downshift = atoi(argv[3]);
-	float scale = atof(argv[4]);
+	size_t width = (size_t)atoi(argv[1]);
+	size_t height = (size_t)atoi(argv[2]);
+	uint_fast8_t downshift = (uint8_t)atoi(argv[3]);
+	float scale = (float)atof(argv[4]);
 	
 	uint8_t *buffer = malloc(width * height);
 	

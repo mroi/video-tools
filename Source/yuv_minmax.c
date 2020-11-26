@@ -9,8 +9,8 @@ int main(int argc, char **argv)
 {
 	if (argc < 3) return 0;
 	
-	size_t width = atoi(argv[1]);
-	size_t height = atoi(argv[2]);
+	size_t width = (size_t)atoi(argv[1]);
+	size_t height = (size_t)atoi(argv[2]);
 	
 	uint8_t *buffer = malloc(width * height);
 	
