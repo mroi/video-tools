@@ -1,12 +1,8 @@
-TOOLS = AtomicParsley HandBrakeCLI MP4Box Subler.app aac_encode
+TOOLS = AtomicParsley HandBrakeCLI MP4Box Subler.app
 
-.PHONY: all clean
+.PHONY: all
 
 all: $(TOOLS)
-
-%: Source/%.c
-	$(CC) -O3 -Weverything -o $@ $< \
-		$(if $(filter aac_encode,$@),-framework AudioToolbox -framework CoreFoundation)
 
 %:
 	@which $@ &> /dev/null || { \
@@ -19,6 +15,3 @@ all: $(TOOLS)
 		esac ; \
 		false ; \
 	}
-
-clean:
-	rm -f $(foreach source,$(wildcard Source/*),$(basename $(notdir $(source))))

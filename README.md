@@ -3,11 +3,8 @@ Video Tools
 
 This is a loose compilation of a bunch of scripts and small helper tools and also the home 
 for some downloaded tools that I use to process movies and other media in Apple-style MPEG-4 
-format. It also contains some scripts for [Final Cut Pro 
-X](https://www.apple.com/final-cut-pro/) project maintenance.
-
-**aac_encode**  
-Pipe in a 48kHz stereo s16le PCM stream. Uses QuickTime to convert to AAC.
+format. It also contains some scripts for [Final Cut 
+Pro](https://www.apple.com/final-cut-pro/) project maintenance.
 
 **compare.sh**  
 Compares MPEG-4 files with regard to the tracks they contain and their metadata.
