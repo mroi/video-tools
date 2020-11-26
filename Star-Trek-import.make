@@ -38,8 +38,8 @@ all: $(foreach season,$(SEASONS), \
 	$(if $(filter VOY_%,$(season)),$(patsubst %.mkv,%.m4v,$(wildcard $(season)/*.mkv))))
 dvd: $(foreach season,$(SEASONS), \
 	$(if $(filter TNG_%,$(season)),$(patsubst %_HD.h264,%_SD.mkv,$(wildcard $(season)/*_HD.h264) $(season)/01_HD.h264)) \
-	$(if $(filter DS9_%,$(season)),$(shell printf '$(season)/%02d.mkv' $$(($(basename $(notdir $(lastword $(sort $(wildcard $(season)/*.mkv)))))+1)))) \
-	$(if $(filter VOY_%,$(season)),$(shell printf '$(season)/%02d.mkv' $$(($(basename $(notdir $(lastword $(sort $(wildcard $(season)/*.mkv)))))+1)))))
+	$(if $(filter DS9_%,$(season)),$(shell printf '$(season)/%02d.mkv' $$(($(patsubst 0%,%,$(basename $(notdir $(lastword $(sort $(wildcard $(season)/*.mkv)))))+1))))) \
+	$(if $(filter VOY_%,$(season)),$(shell printf '$(season)/%02d.mkv' $$(($(patsubst 0%,%,$(basename $(notdir $(lastword $(sort $(wildcard $(season)/*.mkv)))))+1))))))
 
 .PRECIOUS: %_HD.h264 %_SD.m4v %_SD.mkv
 
