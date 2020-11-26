@@ -1,0 +1,43 @@
+{
+  "nodes": {
+    "ffmpeg": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1594419977,
+        "narHash": "sha256-wka1DQAw11PvScsU/vbROADYHAZ8FgJTwETKz9Lnc9o=",
+        "owner": "FFmpeg",
+        "repo": "FFmpeg",
+        "rev": "6b6b9e593dd4d3aaf75f48d40a13ef03bdef9fdb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FFmpeg",
+        "ref": "n4.3.1",
+        "repo": "FFmpeg",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1606421705,
+        "narHash": "sha256-sX485VPB0P19k2UIiN/eZJaxH4sdolqs+WoI3dqnC58=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ea84f9d409d0a2216b592591a14608d2148067dc",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "ffmpeg": "ffmpeg",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

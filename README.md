@@ -1,9 +1,8 @@
 Video Tools
 ===========
 
-This is a loose compilation of a bunch of scripts and small helper tools and also the home 
-for some downloaded tools that I use to process movies and other media in Apple-style MPEG-4 
-format. It also contains some scripts for [Final Cut 
+This is a loose compilation of a bunch of scripts and tools that I use to process movies and 
+other media in Apple-style MPEG-4 format. It also contains some scripts for [Final Cut 
 Pro](https://www.apple.com/final-cut-pro/) project maintenance.
 
 **compare.sh**  
@@ -21,8 +20,11 @@ Normalizes XML exports from Final Cut Pro X to make them suitable for diff’ing
 Process XML exports from Final Cut Pro X, reporting and sanitizing some of my personal pet 
 peeves in projects, like forgotten keywords.
 
-You can place downloaded tools right here into the project directory, because this will be 
-in `$PATH`. The Makefile will help you collect everything needed or recommended.
+In addition, a [Nix flake](https://nixos.wiki/wiki/Flakes) allows to build the following 
+externally hosted tools:
+
+[**ffmpeg**](https://ffmpeg.org)  
+The Swiss army knife of audio and video tools.
 
 ___
 Because I sometimes reuse code from GPL’ed projects, everything in here is licensed under 
