@@ -4,17 +4,17 @@ X264 ?= nice $(dir $(realpath $(MAKEFILE_LIST)))/x264
 
 SEASONS ?= $(or $(SEASON),$(wildcard TNG_[1-7]) $(wildcard DS9_[1-7]) $(wildcard VOY_[1-7]))
 TITLES ?= $(or $(shell case $@ in \
-	(DS9*) echo 2 3 4 5 ;; \
+	(DS9*) echo 1 2 3 4 ;; \
 	(VOY*) echo 1 2 3 4 ;; \
 	esac),$(error DVD title structure unknown))
 AUDIO ?= $(or $(shell case $@ in \
 	(TNG*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
-	(DS9*) echo --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
+	(DS9*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
 	(VOY*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
 	esac),$(error DVD audio arrangement unknown))
 SUBTITLES ?= $(or $(shell case $@ in \
 	(TNG*) echo --subtitle 3,1,2,4,5,6,7,8,9 ;; \
-	(DS9*) echo --subtitle 2,4,3,5,6,7,8,9,10 ;; \
+	(DS9*) echo --subtitle 3,2,1,4,5,6,7,8,9 ;; \
 	(VOY*) echo --subtitle 3,2,1,4,5,6,7,8,9 ;; \
 	esac),$(error DVD subtitle arrangement unknown))
 
@@ -73,7 +73,7 @@ bonus:
 	@echo '* extract chapter titles'
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb $(if $(filter DS9_%,$@),--nlmeans=light) --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 $(AUDIO) $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb $(if $(filter DS9_1 DS9_2 DS9_3,$@),--nlmeans=light) --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 $(AUDIO) $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
 	done
 	diskutil eject /Volumes/EU_*
 
