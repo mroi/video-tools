@@ -35,7 +35,7 @@ compare() {
 	fp2=$tmpdir/$(basename "$2")-right
 	fingerprint "$1" > "$fp1"
 	fingerprint "$2" > "$fp2"
-	cmp -s "$fp1" "$fp2" || diff -u "$fp1" "$fp2"
+	diff -sud "$fp1" "$fp2"
 }
 
 for last ; do true ; done
