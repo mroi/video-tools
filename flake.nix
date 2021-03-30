@@ -2,7 +2,7 @@
 	description = "video processing tools";
 	inputs = {
 		ffmpeg = {
-			url = github:FFmpeg/FFmpeg/n4.3.1;
+			url = "github:FFmpeg/FFmpeg/n4.3.1";
 			flake = false;
 		};
 	};
