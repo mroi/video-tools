@@ -1,6 +1,7 @@
 {
 	description = "video processing tools";
 	inputs = {
+		nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 		ffmpeg = {
 			url = "github:FFmpeg/FFmpeg/n4.4";
 			flake = false;
