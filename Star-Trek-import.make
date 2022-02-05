@@ -9,12 +9,12 @@ TITLES ?= $(or $(shell case $@ in \
 	esac),$(error DVD title structure unknown))
 AUDIO ?= $(or $(shell case $@ in \
 	(TNG*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
-	(DS9*) echo --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
+	(DS9*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
 	(VOY*) echo --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
 	esac),$(error DVD audio arrangement unknown))
 SUBTITLES ?= $(or $(shell case $@ in \
 	(TNG*) echo --subtitle 3,1,2,4,5,6,7,8,9 ;; \
-	(DS9*) echo --subtitle 2,4,3,5,6,7,8,9,10 ;; \
+	(DS9*) echo --subtitle 3,2,1,4,5,6,7,8,9 ;; \
 	(VOY*) echo --subtitle 2,4,3,5,6,7,8,9,10 ;; \
 	esac),$(error DVD subtitle arrangement unknown))
 
