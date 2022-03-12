@@ -5,17 +5,17 @@ X264 ?= nice $(dir $(realpath $(MAKEFILE_LIST)))/x264
 SEASONS ?= $(or $(SEASON),$(wildcard TNG_[1-7]) $(wildcard DS9_[1-7]) $(wildcard VOY_[1-7]))
 TITLES ?= $(or $(shell case $@ in \
 	(DS9*) echo 2 3 4 5 ;; \
-	(VOY*) echo 2 3 4 5 ;; \
+	(VOY*) echo 1 2 3 4 ;; \
 	esac),$(error DVD title structure unknown))
 AUDIO ?= $(or $(shell case $@ in \
 	(TNG*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
 	(DS9*) echo --audio 2,2,1,1,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
-	(VOY*) echo --audio 1,1,2,2,3,4,5 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac,ca_aac --ab 128,auto,128,auto,128,128,128 --arate 48,auto,48,auto,48,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2,dpl2 ;; \
+	(VOY*) echo --audio 2,2,1,1,3,4 --aencoder ca_aac,copy:ac3,ca_aac,copy:ac3,ca_aac,ca_aac --ab 128,auto,128,auto,128,128 --arate 48,auto,48,auto,48,48 --mixdown dpl2,auto,dpl2,auto,dpl2,dpl2 ;; \
 	esac),$(error DVD audio arrangement unknown))
 SUBTITLES ?= $(or $(shell case $@ in \
 	(TNG*) echo --subtitle 3,1,2,4,5,6,7,8,9 ;; \
 	(DS9*) echo --subtitle 3,2,1,4,5,6,7,8,9 ;; \
-	(VOY*) echo --subtitle 2,4,3,5,6,7,8,9,10 ;; \
+	(VOY*) echo --subtitle 3,2,1,4,5,6,7,8 ;; \
 	esac),$(error DVD subtitle arrangement unknown))
 
 atv_import = \
