@@ -3,7 +3,7 @@
 	inputs = {
 		nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 		ffmpeg = {
-			url = "github:FFmpeg/FFmpeg/n4.4";
+			url = "github:FFmpeg/FFmpeg/n5.0";
 			flake = false;
 		};
 	};
@@ -11,7 +11,7 @@
 		packages.x86_64-darwin.ffmpeg = let
 			pkgs = import nixpkgs { system = "x86_64-darwin"; };
 		in pkgs.stdenv.mkDerivation {
-			name = "ffmpeg-4.4";
+			name = "ffmpeg-5.0";
 			src = ffmpeg;
 			nativeBuildInputs = [ pkgs.llvmPackages_latest.clang pkgs.yasm ];
 			buildInputs = [ pkgs.darwin.apple_sdk.frameworks.OpenCL ];

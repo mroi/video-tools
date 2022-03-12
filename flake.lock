@@ -3,27 +3,27 @@
     "ffmpeg": {
       "flake": false,
       "locked": {
-        "lastModified": 1617915316,
-        "narHash": "sha256-q40sOzKMu27ePERKkrnKO0+LbZb+uTwgZtPJQdMTZSc=",
+        "lastModified": 1642185835,
+        "narHash": "sha256-wQ0DEjWIg8sWfXv/Rlw4wUM+1KjrnuFVIGyDalPf7jc=",
         "owner": "FFmpeg",
         "repo": "FFmpeg",
-        "rev": "dc91b913b6260e85e1304c74ff7bb3c22a8c9fb1",
+        "rev": "390d6853d0ef408007feb39c0040682c81c02751",
         "type": "github"
       },
       "original": {
         "owner": "FFmpeg",
-        "ref": "n4.4",
+        "ref": "n5.0",
         "repo": "FFmpeg",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1633329294,
-        "narHash": "sha256-0LpQLS4KMgxslMgmDHmxG/5twFlXDBW9z4Or1iOrCvU=",
+        "lastModified": 1646955661,
+        "narHash": "sha256-AYLta1PubJnrkv15+7G+6ErW5m9NcI9wSdJ+n7pKAe0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ee084c02040e864eeeb4cf4f8538d92f7c675671",
+        "rev": "e9545762b032559c27d8ec9141ed63ceca1aa1ac",
         "type": "github"
       },
       "original": {
