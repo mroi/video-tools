@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "atomicparsley": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1626387351,
+        "narHash": "sha256-77yWwfdEul4uLsUNX1dLwj8K0ilcuBaTVKMyXDvKVx4=",
+        "owner": "wez",
+        "repo": "atomicparsley",
+        "rev": "e7ad03a341f2638c12970dff18a13e86fa57b679",
+        "type": "github"
+      },
+      "original": {
+        "owner": "wez",
+        "ref": "20210715.151551.e7ad03a",
+        "repo": "atomicparsley",
+        "type": "github"
+      }
+    },
     "ffmpeg": {
       "flake": false,
       "locked": {
@@ -14,6 +31,23 @@
         "owner": "FFmpeg",
         "ref": "n5.0",
         "repo": "FFmpeg",
+        "type": "github"
+      }
+    },
+    "mp4box": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1645543306,
+        "narHash": "sha256-MIX32lSqf/lrz9240h4wMIQp/heUmwvDJz8WN08yf6c=",
+        "owner": "gpac",
+        "repo": "gpac",
+        "rev": "418db4149af78773815b5f6a7030a120037ba140",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gpac",
+        "ref": "v2.0.0",
+        "repo": "gpac",
         "type": "github"
       }
     },
@@ -35,7 +69,9 @@
     },
     "root": {
       "inputs": {
+        "atomicparsley": "atomicparsley",
         "ffmpeg": "ffmpeg",
+        "mp4box": "mp4box",
         "nixpkgs": "nixpkgs"
       }
     }
