@@ -7,7 +7,7 @@
 			flake = false;
 		};
 		ffmpeg = {
-			url = "github:FFmpeg/FFmpeg/n5.0";
+			url = "github:FFmpeg/FFmpeg/n5.1.2";
 			flake = false;
 		};
 		mp4box = {
@@ -34,11 +34,16 @@
 			};
 
 			ffmpeg = clangStdenv.mkDerivation {
-				name = "ffmpeg-5.0";
+				name = "ffmpeg-5.1.2";
 				src = ffmpeg;
 				nativeBuildInputs = [ yasm ];
 				buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.OpenCL ];
-				configureFlags = "--cc=clang --cpu=corei7-avx --enable-gpl --enable-version3 --enable-nonfree --enable-opencl --enable-static --disable-doc --disable-programs --enable-ffmpeg";
+				configureFlags = [
+					"--cc=clang --cpu=corei7-avx"
+					"--enable-gpl --enable-version3 --enable-nonfree"
+					"--enable-opencl --enable-static --disable-doc"
+					"--disable-programs --enable-ffmpeg"
+				];
 				installPhase = ''
 					mkdir -p $out/bin
 					cp ffmpeg $out/bin/
