@@ -16,9 +16,9 @@ options.
 **fcpdump.swift**  
 Normalizes XML exports from Final Cut Pro X to make them suitable for diff’ing.
 
-**fcpfix.pl**  
-Process XML exports from Final Cut Pro X, reporting and sanitizing some of my personal pet 
-peeves in projects, like forgotten keywords.
+**fcpcheck.swift**  
+Processes XML exports from Final Cut Pro X to report some of my personal pet peeves in 
+projects, like forgotten keywords.
 
 In addition, a [Nix flake](https://nixos.wiki/wiki/Flakes) allows to build the following 
 externally hosted tools:
