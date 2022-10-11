@@ -55,3 +55,9 @@ try xml.nodes(forXPath: "//keyword").forEach {
 		print("keywords \(keywords) in \(path(to: $0))")
 	}
 }
+
+/* report discouraged methods of disabling clip audio */
+try xml.nodes(forXPath: "//adjust-volume|//audio-role-source/mute").forEach {
+	// FIXME: this also matches some audio volume automations
+	print("clip audio muted by discouraged method in \(path(to: $0)): \($0)")
+}
