@@ -47,7 +47,7 @@ bonus:
 	@for title in $(TITLES) ; do \
 		target=$(lastword $(SEASONS))/$$((101 + title - $(firstword $(TITLES)))).mkv ; \
 		test -f $$target && continue ; \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb=bob --rate 50 --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --aencoder ca_aac --ab 128 --arate 48 --mixdown dpl2 $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $$target ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --crop-mode conservative --comb-detect --decomb=bob --rate 50 --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 --aencoder ca_aac --ab 128 --arate 48 --mixdown dpl2 $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $$target ; \
 	done
 
 %_HD.h264:
@@ -63,7 +63,7 @@ bonus:
 	@echo '* extract chapter titles'
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb --encoder x264 --quality 23 --encoder-preset ultrafast --encoder-profile high --encoder-level 4.1 $(AUDIO) $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d_SD.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --crop-mode conservative --comb-detect --decomb --encoder x264 --quality 23 --encoder-preset ultrafast --encoder-profile high --encoder-level 4.1 $(AUDIO) $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d_SD.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
 	done
 	diskutil eject /Volumes/EU_*
 
@@ -73,7 +73,7 @@ bonus:
 	@echo '* extract chapter titles'
 	./Capitalization.pl | pbcopy
 	@for title in $(TITLES) ; do \
-		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --comb-detect --decomb $(if $(filter DS9_1 DS9_2 DS9_3,$@),--nlmeans=light) --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 $(AUDIO) $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
+		caffeinate $(HANDBRAKE) --format mkv --markers --modulus 2 --color-matrix pal --custom-anamorphic --pixel-aspect 16:15 --crop-mode conservative --comb-detect --decomb $(if $(filter DS9_1 DS9_2 DS9_3,$@),--nlmeans=light) --encoder x264 --quality 23 --encoder-preset slow --encoder-profile high --encoder-level 4.1 $(AUDIO) $(SUBTITLES) -i /Volumes/EU_* --title $$title -o $(@D)/$$(printf %02d.mkv $$(($(*F:0%=%) + title - $(firstword $(TITLES))))) ; \
 	done
 	diskutil eject /Volumes/EU_*
 
