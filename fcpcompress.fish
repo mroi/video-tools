@@ -1,4 +1,4 @@
-set --global target ../Justice,\ Inc.
+set --global target .
 set --global profile main422-10
 set --global video hevc
 set --global audio aac

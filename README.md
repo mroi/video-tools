@@ -20,6 +20,10 @@ Normalizes XML exports from Final Cut Pro X to make them suitable for diff’ing
 Processes XML exports from Final Cut Pro X to report some of my personal pet peeves in 
 projects, like forgotten keywords.
 
+**fcpcompress.fish**  
+A collection of [Fish shell](https://fishshell.com) code snippets that are helpful when 
+compressing media inside a Final Cut Pro X project for archiving.
+
 In addition, a [Nix flake](https://nixos.wiki/wiki/Flakes) allows to build the following 
 externally hosted tools:
 
