@@ -24,6 +24,11 @@ projects, like forgotten keywords.
 A collection of [Fish shell](https://fishshell.com) code snippets that are helpful when 
 compressing media inside a Final Cut Pro X project for archiving.
 
+**fixSendToX.swift**  
+Fixes irregularities in XML files when using 
+[SendToX](https://apps.apple.com/us/app/sendtox/id496926258) to convert old Final Cut Pro 
+Studio projects to Final Cut Pro X.
+
 In addition, a [Nix flake](https://nixos.wiki/wiki/Flakes) allows to build the following 
 externally hosted tools:
 
