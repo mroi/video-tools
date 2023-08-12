@@ -63,8 +63,8 @@ function iterate --description 'iterate over multiple files to compress'
 		set index (math $index + 1)
 		echo "[$index/"(count $argv)']' $file
 		$type $file
+		and touch -r $file out.$type
 		and mv out.$type $target/$file
-		and touch -r $file $target/$file
 	end
 	kill (jobs --pid)
 end
