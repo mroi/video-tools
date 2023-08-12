@@ -5,8 +5,8 @@ set --global audio aac
 set --global data copy
 set --global pcm pcm_s16le
 
-function hevc --description 'shell with HEVC-enabled ffmpeg'
-	nix shell --impure --expr '(import <nixpkgs> {}).ffmpeg.override { withX265 = true; }'
+function enter --description 'shell with ffmpeg'
+	nix shell nixpkgs#ffmpeg
 end
 
 function mov --description 'compress MOV files'
