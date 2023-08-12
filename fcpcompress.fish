@@ -32,6 +32,17 @@ function mov --description 'compress MOV files'
 	end
 end
 
+function aiff --description 'compress AIFF files'
+	if test (count $argv) -gt 1
+		iterate aiff $argv
+	else
+		sips -s formatOptions lzw -o out.tiff $argv[1]
+		ffmpeg -loglevel error -stats -i $argv[1] \
+			-codec:a $pcm -map_metadata 0 \
+			out.aiff
+	end
+end
+
 function wav --description 'compress WAV files'
 	if test (count $argv) -gt 1
 		iterate wav $argv
@@ -42,6 +53,14 @@ function wav --description 'compress WAV files'
 		and ./bwfmetaedit --continue-errors --out-core=meta $argv[1]
 		sed -i_ 's|^"[^"]*"|"out.wav"|;s/W=24/W=16/' meta
 		and ./bwfmetaedit --in-core=meta
+	end
+end
+
+function tiff --description 'compress TIFF files'
+	if test (count $argv) -gt 1
+		iterate tiff $argv
+	else
+		sips -s formatOptions lzw -o out.tiff $argv[1]
 	end
 end
 
