@@ -15,6 +15,7 @@ function mov --description 'compress MOV files'
 	else
 		ffmpeg -loglevel error -stats -i $argv[1] \
 			(switch $video
+				case h264i; echo "-vf format=yuv420p -codec:v h264 -profile:v $profile -preset:v fast -x264-params log-level=-1:interlaced=1"
 				case hevc; echo "-codec:v hevc -profile:v $profile -preset:v faster -tag:v hvc1 -x265-params log-level=-1"
 				case none;
 				case '*'; echo "-codec:v $video"
