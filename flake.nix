@@ -7,7 +7,7 @@
 			flake = false;
 		};
 		ffmpeg = {
-			url = "github:FFmpeg/FFmpeg/n5.1.2";
+			url = "github:FFmpeg/FFmpeg/n6.1";
 			flake = false;
 		};
 		mp4box = {
@@ -34,7 +34,7 @@
 			};
 
 			ffmpeg = clangStdenv.mkDerivation {
-				name = "ffmpeg-5.1.2";
+				name = "ffmpeg";
 				src = ffmpeg;
 				nativeBuildInputs = [ yasm ];
 				buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.OpenCL ];
