@@ -50,15 +50,22 @@
 				'';
 			};
 
-			# TODO: HandBrake cannot be built with Nix’ 10.12 platform, download prebuilt release instead
-			#handbrake = handbrake.override { useGtk = false; };
-			handbrake = stdenvNoCC.mkDerivation {
-				name = "handbrake-1.5.1";
+			handbrake = stdenvNoCC.mkDerivation rec {
+				pname = "handbrake";
+				version = "1.7.2";
 				src = fetchurl {
-					url = "https://github.com/HandBrake/HandBrake/releases/download/1.5.1/HandBrakeCLI-1.5.1.dmg";
-					sha256 = "sha256-MorR+6y4VbZEtjiZRQwATLGOXoGa1RlUnExLyGOmD5A=";
+					url = "https://github.com/HandBrake/HandBrake/releases/download/${version}/HandBrakeCLI-${version}.dmg";
+					sha256 = "sha256-QhH3BOj6OZaKhbI7iA7lv697V13KH+z8lHiP5EnThmY=";
 				};
-				nativeBuildInputs = [ undmg ];
+				# TODO: undmg does not support APFS disk images
+				#nativeBuildInputs = [ undmg ];
+				__noChroot = true;
+				unpackPhase = ''
+					mkdir dmg
+					/usr/bin/hdiutil attach $src -readonly -mountpoint $PWD/dmg
+					cp dmg/HandBrakeCLI ./
+					/usr/bin/hdiutil detach $PWD/dmg
+				'';
 				installPhase = ''
 					cd $NIX_BUILD_TOP
 					mkdir -p $out/bin
