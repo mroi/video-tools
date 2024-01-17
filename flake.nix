@@ -85,7 +85,7 @@
 					rev = "v${version}";
 					hash = "sha256-MIX32lSqf/lrz9240h4wMIQp/heUmwvDJz8WN08yf6c=";
 				};
-				nativeBuildInputs = [ pkg-config ] ++ lib.optionals stdenv.isDarwin [ darwin.cctools ];
+				nativeBuildInputs = [ pkg-config ] ++ lib.optionals stdenv.buildPlatform.isDarwin [ darwin.cctools ];
 				buildInputs = [ zlib ] ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Carbon ];
 				enableParallelBuilding = true;
 			};
