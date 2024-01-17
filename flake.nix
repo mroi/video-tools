@@ -2,11 +2,10 @@
 	description = "video processing tools";
 	outputs = { self, nixpkgs }: let
 		systems = [ "x86_64-linux" "x86_64-darwin" ];
-		lib = import "${nixpkgs}/lib";
-		forAll = list: f: lib.genAttrs list f;
+		forAll = list: f: nixpkgs.lib.genAttrs list f;
 
 	in {
-		packages = forAll systems (system: with import nixpkgs { inherit system; }; {
+		packages = forAll systems (system: with nixpkgs.legacyPackages.${system}; {
 
 			default = self.outputs.packages.${system}.video-tools;
 
