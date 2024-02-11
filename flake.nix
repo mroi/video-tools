@@ -50,10 +50,10 @@
 
 			handbrake = stdenvNoCC.mkDerivation rec {
 				pname = "handbrake";
-				version = "1.7.2";
+				version = "1.7.3";
 				src = fetchurl {
 					url = "https://github.com/HandBrake/HandBrake/releases/download/${version}/HandBrakeCLI-${version}.dmg";
-					sha256 = "sha256-QhH3BOj6OZaKhbI7iA7lv697V13KH+z8lHiP5EnThmY=";
+					hash = "sha256-qmA5xuenvOz/MzVARZ/u49JXtgtBpj81YpEr5rcqtK8=";
 				};
 				# TODO: undmg does not support APFS disk images
 				#nativeBuildInputs = [ undmg ];
