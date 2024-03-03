@@ -3,7 +3,7 @@
 # you can put the tools next to the script
 # shellcheck disable=SC2164
 self=$(
-	test -z "$(dirname "$0")" && cd "$(command -v "$0")"
+	test "$(dirname "$0")" = . && cd "$(dirname "$(command -v "$0")")"
 	test -d "$(dirname "$0")" && cd "$(dirname "$0")"
 	test -L "$0" && cd "$(dirname "$(readlink "$0")")"
 	pwd
