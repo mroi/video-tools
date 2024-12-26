@@ -71,11 +71,7 @@
 				'';
 			};
 
-			mp4box =
-			# TODO: LLVM compilation error fixed in version 18
-			# https://github.com/llvm/llvm-project/issues/62254
-			assert lib.versionOlder clang.version "18";
-			llvmPackages_14.stdenv.mkDerivation rec {
+			mp4box = clangStdenv.mkDerivation rec {
 				pname = "mp4box";
 				version = "2.0.0";
 				src = fetchFromGitHub {
