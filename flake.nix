@@ -25,12 +25,12 @@
 
 			ffmpeg = clangStdenv.mkDerivation rec {
 				pname = "ffmpeg";
-				version = "6.1.1";
+				version = "7.1";
 				src = fetchFromGitHub {
 					owner = "FFmpeg";
 					repo = "FFmpeg";
 					rev = "n${version}";
-					hash = "sha256-Q0c95hbCVUHQWPoh5uC8uzMylmB4BnWg+VhXEgSouzo=";
+					hash = "sha256-erTkv156VskhYEJWjpWFvHjmcr2hr6qgUi28Ho8NFYk=";
 				};
 				nativeBuildInputs = [ yasm ];
 				buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.OpenCL ];
