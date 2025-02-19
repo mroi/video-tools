@@ -50,22 +50,14 @@
 
 			handbrake = stdenvNoCC.mkDerivation rec {
 				pname = "handbrake";
-				version = "1.9.0";
+				version = "1.9.1";
 				src = fetchurl {
 					url = "https://github.com/HandBrake/HandBrake/releases/download/${version}/HandBrakeCLI-${version}.dmg";
-					hash = "sha256-pSPZvsTevIzbx5d+pJ/gsdEgY+PiFEiIr/lo6I+1rMs=";
+					hash = "sha256-lPcnF4bzdZDkyE+g2WcoI74dzYjn/TmQ9Pg9cwJ/w6w=";
 				};
-				# TODO: undmg does not support APFS disk images
-				#nativeBuildInputs = [ undmg ];
-				__noChroot = true;
-				unpackPhase = ''
-					mkdir dmg
-					/usr/bin/hdiutil attach $src -readonly -mountpoint $PWD/dmg
-					cp dmg/HandBrakeCLI ./
-					/usr/bin/hdiutil detach $PWD/dmg
-				'';
+				nativeBuildInputs = [ undmg ];
+				sourceRoot = ".";
 				installPhase = ''
-					cd $NIX_BUILD_TOP
 					mkdir -p $out/bin
 					cp HandBrakeCLI $out/bin/
 				'';
