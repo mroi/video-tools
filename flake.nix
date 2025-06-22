@@ -1,7 +1,7 @@
 {
 	description = "video processing tools";
 	outputs = { self, nixpkgs }: let
-		systems = [ "x86_64-linux" "x86_64-darwin" ];
+		systems = [ "aarch64-linux" "aarch64-darwin" "x86_64-linux" "x86_64-darwin" ];
 		forAll = list: f: nixpkgs.lib.genAttrs list f;
 
 	in {
@@ -34,8 +34,13 @@
 				};
 				nativeBuildInputs = [ yasm ];
 				buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.OpenCL ];
-				configureFlags = [
-					"--cc=clang --cxx=clang++ --cpu=corei7-avx"
+				configureFlags = let cpu = lib.getAttr system {
+					aarch64-linux = "neoverse-n1";
+					aarch64-darwin = "apple-m4";
+					x86_64-linux = "corei7-avx";
+					x86_64-darwin = "corei7-avx";
+				}; in [
+					"--cc=clang --cxx=clang++ --cpu=${cpu}"
 					"--enable-gpl --enable-version3 --enable-nonfree"
 					"--disable-doc --disable-programs --enable-ffmpeg"
 					"--enable-static --disable-stripping"
