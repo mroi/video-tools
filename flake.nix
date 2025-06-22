@@ -50,10 +50,10 @@
 
 			handbrake = stdenvNoCC.mkDerivation rec {
 				pname = "handbrake";
-				version = "1.9.1";
+				version = "1.9.2";
 				src = fetchurl {
 					url = "https://github.com/HandBrake/HandBrake/releases/download/${version}/HandBrakeCLI-${version}.dmg";
-					hash = "sha256-lPcnF4bzdZDkyE+g2WcoI74dzYjn/TmQ9Pg9cwJ/w6w=";
+					hash = "sha256-04vrG1A+D+dXdKHrC4GbBynp3HRk+7zkOZk/v5WSHPM=";
 				};
 				nativeBuildInputs = [ undmg ];
 				sourceRoot = ".";
