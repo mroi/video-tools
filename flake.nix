@@ -25,7 +25,7 @@
 
 			ffmpeg = clangStdenv.mkDerivation rec {
 				pname = "ffmpeg";
-				version = "7.1";
+				version = ffmpeg-full.version;
 				src = fetchFromGitHub {
 					owner = "FFmpeg";
 					repo = "FFmpeg";
