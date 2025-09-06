@@ -19,7 +19,6 @@
 					hash = "sha256-77yWwfdEul4uLsUNX1dLwj8K0ilcuBaTVKMyXDvKVx4=";
 				};
 				nativeBuildInputs = [ cmake ];
-				buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Cocoa ];
 				cmakeFlags = [ "-DPACKAGE_VERSION=${version}" ];
 			};
 
@@ -30,10 +29,9 @@
 					owner = "FFmpeg";
 					repo = "FFmpeg";
 					rev = "n${version}";
-					hash = "sha256-erTkv156VskhYEJWjpWFvHjmcr2hr6qgUi28Ho8NFYk=";
+					hash = ffmpeg-full.src.outputHash;
 				};
 				nativeBuildInputs = [ yasm ];
-				buildInputs = lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.OpenCL ];
 				configureFlags = let cpu = lib.getAttr system {
 					aarch64-linux = "neoverse-n1";
 					aarch64-darwin = "apple-m4";
@@ -78,7 +76,7 @@
 					hash = "sha256-MIX32lSqf/lrz9240h4wMIQp/heUmwvDJz8WN08yf6c=";
 				};
 				nativeBuildInputs = [ pkg-config ] ++ lib.optionals stdenv.buildPlatform.isDarwin [ darwin.cctools ];
-				buildInputs = [ zlib ] ++ lib.optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Carbon ];
+				buildInputs = [ zlib ];
 				enableParallelBuilding = true;
 			};
 
