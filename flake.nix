@@ -118,5 +118,7 @@
 				'';
 			};
 		});
+
+		checks = self.packages;
 	};
 }
