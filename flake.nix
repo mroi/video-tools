@@ -100,19 +100,19 @@
 				src = ./.;
 				dontBuild = true;
 				installPhase = ''
-					mkdir -p $out/libexec
-					cp compare.sh encode.sh $out/libexec/
-					ln -s ${self.outputs.packages.${system}.atomicparsley}/bin/AtomicParsley $out/libexec/
-					ln -s ${self.outputs.packages.${system}.handbrake}/bin/HandBrakeCLI $out/libexec/
-					ln -s ${self.outputs.packages.${system}.mp4box}/bin/MP4Box $out/libexec/
+					mkdir -p $out/libexec/video-tools
+					cp compare.sh encode.sh $out/libexec/video-tools/
+					ln -s ${self.outputs.packages.${system}.atomicparsley}/bin/AtomicParsley $out/libexec/video-tools/
+					ln -s ${self.outputs.packages.${system}.handbrake}/bin/HandBrakeCLI $out/libexec/video-tools/
+					ln -s ${self.outputs.packages.${system}.mp4box}/bin/MP4Box $out/libexec/video-tools/
 					mkdir -p $out/bin
 					cat <<- EOF > $out/bin/mp4cmp
 						#!/bin/sh
-						exec $out/libexec/compare.sh "\$@"
+						exec $out/libexec/video-tools/compare.sh "\$@"
 					EOF
 					cat <<- EOF > $out/bin/mp4enc
 						#!/bin/sh
-						exec $out/libexec/encode.sh "\$@"
+						exec $out/libexec/video-tools/encode.sh "\$@"
 					EOF
 					chmod a+x $out/bin/*
 				'';
